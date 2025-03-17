@@ -1,7 +1,7 @@
 class Quantifier():
     def __init__(self, value: tuple):
         if not isinstance(value, tuple):  
-            self.value = [value]
+            self.value = (value, )
         else: 
             self.value = value
 
