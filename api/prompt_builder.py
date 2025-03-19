@@ -1,10 +1,8 @@
-from api.prompt import RegexPrompt
+from .prompts import RegexPrompt
 
 
 def build_regex() -> RegexPrompt:
     new_prompt = RegexPrompt()
-    new_prompt.string = '40-90'
-    new_prompt.pattern = '^[0-9]{2}-[0-9]{2}$'
 
     print(new_prompt.question)
     return new_prompt
