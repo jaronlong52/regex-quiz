@@ -11,8 +11,6 @@ class RegexPrompt(Prompt):
     """
     def __init__(self):
         super().__init__()
-        self.string: str = ''
-        self.pattern: str = None
     
     @property
     def question(self):

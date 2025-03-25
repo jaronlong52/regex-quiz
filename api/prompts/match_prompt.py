@@ -11,8 +11,6 @@ class MatchPrompt(Prompt):
     """
     def __init__(self):
         super().__init__()
-        self.string: str = ''
-        self.pattern: str = None
     
     def question(self) -> str:
         return f'Write a string which matches the pattern: {self.pattern}'
