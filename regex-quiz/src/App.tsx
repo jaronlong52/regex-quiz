@@ -5,7 +5,7 @@ export default function App() {
 	return (
 		<div>
 			<Header></Header>
-			<Prompt promptText="Your prompt text here"></Prompt>
+			<Prompt promptText="^.*$"></Prompt>
 		</div>
 	);
 }
