@@ -12,6 +12,7 @@ class MatchPrompt(Prompt):
     def __init__(self):
         super().__init__()
     
+    @property
     def question(self) -> str:
         return f'Write a string which matches the pattern: {self.pattern}'
     

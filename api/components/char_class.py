@@ -76,8 +76,6 @@ class CharClass(Component):
             r"[0-9]",  # Digits
             CharClass._generate_random(),  # Random character class, e.g., "[abc]"
             CharClass._generate_random(),
-            CharClass._generate_random(),
-            CharClass._generate_random(),
         ]
         random_choice = random.choice(random_classes)
         return CharClass(random_choice)

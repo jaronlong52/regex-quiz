@@ -21,12 +21,11 @@ class Quantifier(Component):
         second = self.value[1]
         assert second is None or isinstance(second, int), 'Second quantifier value must be None or an integer'
 
-        if first == second:
-            second = None
-        elif second is not None and first > second:
+        if second is not None and first > second:
             second, first = first, second
+            self.value = (first, second)
 
-        self.string = self._generate_string(first, second)
+        self.pattern = self._generate_string(first, second)
 
     def _generate_string(self, first: int, second: int) -> str:
         """Generates the appropriate regex quantifier string."""

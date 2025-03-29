@@ -1,3 +1,4 @@
+import re
 from ..components import Component, CharClass, Quantifier
 
 
@@ -12,7 +13,7 @@ class Prompt:
 
     @property
     def question(self):
-        return ''
+        raise NotImplementedError("Subclasses should implement this method.")
     
     def add_component(self, component: Component):
         self.components.append(component)
@@ -32,4 +33,9 @@ class Prompt:
                     self.string += self.string[-1] * (quantity - 1)
                 else:
                     raise ValueError("Quantifier encountered without a preceding sample character.")
-         
+        
+        # validate the final regex pattern
+        try:
+            re.compile(self.pattern)
+        except re.error as e:
+            raise ValueError(f"The generated regex pattern is invalid: {self.pattern}. Error: {e}")
