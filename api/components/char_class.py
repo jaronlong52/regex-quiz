@@ -1,26 +1,29 @@
 import re
 import string
 import random
+from .component import Component
 
 
-class CharClass:
-    def __init__(self, value: str):
+class CharClass(Component):
+    def __init__(self, pattern: str):
         """
         Represents a regex character class.
         """
-        assert isinstance(value, str), "CharClass value must be a string"
-        self.value = value
+        super().__init__()
+
+        assert isinstance(pattern, str), "CharClass string must be a string"
+        self.pattern = pattern
 
         # validate regex pattern
         try:
-            re.compile(self.value)
+            re.compile(self.pattern)
         except re.error:
-            raise ValueError(f"Invalid regex character class: {self.value}")
+            raise ValueError(f"Invalid regex character class: {self.pattern}")
 
         # extract valid characters
         self.characters = self._expand_char_class()
         if not self.characters:
-            raise ValueError(f"Character class {self.value} does not match any characters.")
+            raise ValueError(f"Character class {self.pattern} does not match any characters.")
 
     def _expand_char_class(self):
         """Extracts characters that belong to the given regex character class."""
@@ -31,21 +34,32 @@ class CharClass:
             ".": string.printable,
         }
 
-        if self.value in predefined_classes:
-            return list(predefined_classes[self.value])
+        if self.pattern in predefined_classes:
+            return list(predefined_classes[self.pattern])
 
         # extract characters manually for complex classes
-        pattern = re.compile(self.value)
+        pattern = re.compile(self.pattern)
         return [char for char in string.printable if pattern.fullmatch(char)]
-
-    def __str__(self):
-        return f"Character Class: {self.value}"
 
     def get_sample(self) -> str:
         """Returns a random character that belongs to the character class."""
         if not self.characters:
-            raise ValueError(f"Cannot generate sample: No characters match {self.value}.")
+            raise ValueError(f"Cannot generate sample: No characters match {self.pattern}.")
         return random.choice(self.characters)
+    
+    @staticmethod
+    def _generate_random(min_chars=2, max_chars=5) -> str:
+        """
+        Generates a regex character class containing a random subset of letters.
+        
+        :param min_chars: Minimum number of characters to include.
+        :param max_chars: Maximum number of characters to include.
+        :return: A regex character class string (e.g., "[abc]").
+        """
+        num_chars = random.randint(min_chars, max_chars)
+        # Choose a random sample from letters (you can extend to digits or other characters if needed)
+        selected_chars = random.sample(string.ascii_letters, num_chars)
+        return "[" + "".join(selected_chars) + "]"
     
     @staticmethod
     def random() -> 'CharClass':
@@ -60,7 +74,10 @@ class CharClass:
             r"[a-z]",  # Lowercase letters
             r"[A-Z]",  # Uppercase letters
             r"[0-9]",  # Digits
-            r"[^\w\s]",  # Non-alphanumeric class
+            CharClass._generate_random(),  # Random character class, e.g., "[abc]"
+            CharClass._generate_random(),
+            CharClass._generate_random(),
+            CharClass._generate_random(),
         ]
         random_choice = random.choice(random_classes)
         return CharClass(random_choice)

@@ -1,4 +1,5 @@
 from .prompt import Prompt
+from ..components import CharClass, Quantifier
 
 
 class RegexPrompt(Prompt):
@@ -15,4 +16,5 @@ class RegexPrompt(Prompt):
     @property
     def question(self):
         return f'Write a regex pattern which matches the string: {self.string}'
+    
     

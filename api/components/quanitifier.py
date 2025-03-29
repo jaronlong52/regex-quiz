@@ -1,11 +1,14 @@
 import random
+from .component import Component
 
 
-class Quantifier:
+class Quantifier(Component):
     def __init__(self, value: tuple | int):
         """
         Represents a regex quantifier, such as {m,n}, *, +, or ?.
         """
+        super().__init__()
+
         if isinstance(value, int):  
             self.value = (value, value)
         elif isinstance(value, tuple) and len(value) in {1, 2}:
@@ -17,6 +20,11 @@ class Quantifier:
         assert isinstance(first, int), 'First quantifier value must be an integer'
         second = self.value[1]
         assert second is None or isinstance(second, int), 'Second quantifier value must be None or an integer'
+
+        if first == second:
+            second = None
+        elif second is not None and first > second:
+            second, first = first, second
 
         self.string = self._generate_string(first, second)
 
@@ -41,15 +49,12 @@ class Quantifier:
 
         return f'{{{first},{second}}}' if second is not None else f'{{{first},}}'
 
-    def __str__(self):
-        return self.string
-
     def get_quantity(self) -> int:
         """Returns a random number within the quantifier range."""
-        return (
-            self.value[0] if len(self.value) == 1 or self.value[1] is None
-            else random.randint(self.value[0], self.value[1])
-        )
+        if len(self.value) == 1 or self.value[1] is None or self.value[0] == self.value[1]:
+            return self.value[0]
+        else:
+            return random.randint(self.value[0], self.value[1])
 
     @staticmethod
     def random() -> 'Quantifier':
