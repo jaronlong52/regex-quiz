@@ -1,0 +1,48 @@
+.main-info {
+  margin-bottom: 20px;;
+}
+
+.timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 20px;
+  justify-content: space-between; /* Updated property */
+  width: 30%;
+  margin-left: auto; /* Added property */
+  margin-right: auto; /* Added property */
+}
+
+.info-container div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 26%;
+}
+
+.info-container div button {
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  color: black;
+}
+
+.info-divider {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid white;
+  border-radius: 20px;
+  width: 140vh;
+  margin: auto;
+}

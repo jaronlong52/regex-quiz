@@ -2,6 +2,7 @@ import Header from "./components/header";
 import Prompt from "./components/prompt";
 import { useEffect, useState } from "react";
 import api from "./api/api";
+import Info from "./components/info";
 
 export default function App() {
 	const [prompt, setPrompt] = useState("example Prompt");
@@ -22,6 +23,7 @@ export default function App() {
 	return (
 		<div>
 			<Header></Header>
+			<Info />
 			<Prompt promptText={prompt}></Prompt>
 		</div>
 	);
