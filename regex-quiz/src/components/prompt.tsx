@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./layouts/prompt.css";
 
 interface PromptProps {
@@ -7,10 +7,17 @@ interface PromptProps {
 
 const Prompt: React.FC<PromptProps> = ({ promptText }) => {
 	const [inputValue, setInputValue] = useState("");
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValue(event.target.value);
 	};
+
+	useEffect(() => {
+		if (inputRef.current) {
+			inputRef.current.focus();
+		}
+	}, []);
 
 	return (
 		<div className="prompt-container">
@@ -19,7 +26,8 @@ const Prompt: React.FC<PromptProps> = ({ promptText }) => {
 				type="text"
 				value={inputValue}
 				onChange={handleInputChange}
-				className="prompt-input blinking-cursor"
+				ref={inputRef}
+				className="prompt-input"
 			/>
 		</div>
 	);
