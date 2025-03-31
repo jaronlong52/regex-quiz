@@ -1,5 +1,5 @@
 import re
-from ..components import Component, CharClass, Quantifier
+from components import Component, CharClass, Quantifier
 
 
 class Prompt:

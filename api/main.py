@@ -1,12 +1,14 @@
 from flask import Flask, request, jsonify
-from .prompts import Prompt, build_match, build_regex, DIFFICULTY
+from prompts import Prompt, build_match, build_regex, DIFFICULTY
 
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def home():
     return "Welcome to Regex API!"
+
 
 @app.route('/generate/<int:type>')
 def generate(type: int):

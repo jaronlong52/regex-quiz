@@ -1,5 +1,5 @@
 from . import MatchPrompt, RegexPrompt
-from ..components import Quantifier, CharClass
+from components import Quantifier, CharClass
 
 
 DIFFICULTY = [0, 5]
