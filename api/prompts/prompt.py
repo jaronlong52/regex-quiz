@@ -10,10 +10,18 @@ class Prompt:
    
     def __str__(self):
         return f'{self.__class__.__name__}: {self.question} | Pattern: {self.pattern} | String: {self.string}'
-
+    
     @property
     def question(self):
         raise NotImplementedError("Subclasses should implement this method.")
+
+    def to_dict(self) -> dict:
+        return {
+            'type': self.__class__.__name__,
+            'question': self.question,
+            'pattern': self.pattern,
+            'string': self.string
+        }
     
     def add_component(self, component: Component):
         self.components.append(component)

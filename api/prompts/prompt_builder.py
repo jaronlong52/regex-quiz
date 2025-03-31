@@ -1,5 +1,8 @@
-from .prompts import MatchPrompt, RegexPrompt
-from .components import Quantifier, CharClass
+from . import MatchPrompt, RegexPrompt
+from ..components import Quantifier, CharClass
+
+
+DIFFICULTY = [0, 5]
 
 
 def build_regex() -> RegexPrompt:

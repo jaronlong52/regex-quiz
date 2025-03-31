@@ -1,5 +1,4 @@
 from .prompt import Prompt
-from ..components import CharClass, Quantifier
 
 
 class RegexPrompt(Prompt):
