@@ -5,7 +5,7 @@ venv\Scripts\activate
 python -m main 
 
 # Build docker container:
-docker build -t python-imagename .
+docker build -t regex-api .
 
 # Run docker container:
-docker run python-imagename
+docker run -p 5000:5000 regex-api
