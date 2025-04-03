@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request, jsonify
-from prompts import Prompt, build_match, build_regex, DIFFICULTY
+from prompts import Prompt, build_prompt, MIN_DIFFICULTY, MAX_DIFFICULTY
 
 
 app = Flask(__name__)
@@ -11,23 +11,16 @@ def home():
     return 'Welcome to Regex API!'
 
 
-@app.route('/generate/<int:type>')
-def generate(type: int):
-    if type not in [0, 1]:
-        return jsonify({'error': 'Invalid type. Use 0 for regex and 1 for match.'}), 400
-
-    prompt: Prompt = None
-    if type == 0:
-        prompt = build_regex()
-    else:
-        prompt = build_match()
-
-    data = prompt.to_dict()
+@app.route('/generate/<int:difficulty>', methods=['GET'])
+def generate(difficulty: int):
+    if difficulty < MIN_DIFFICULTY or difficulty > MAX_DIFFICULTY:
+        return jsonify({'error': f'Invalid difficulty. Use a value between {MIN_DIFFICULTY} and {MAX_DIFFICULTY}.'}), 400
     
-    difficulty = request.args.get('difficulty', default=0, type=int)
-    if difficulty < DIFFICULTY[0] or difficulty > DIFFICULTY[1]:
-        return jsonify({'error': f'Invalid difficulty. Use a value between {DIFFICULTY[0]} and {DIFFICULTY[1]}.'}), 400
+    quantity = request.args.get('quantity')
+    num_strings = int(quantity) if quantity else 3
 
+    prompt = build_prompt(num_strings)
+    data = prompt.to_dict()
     data['difficulty'] = difficulty
 
     return jsonify(data), 200

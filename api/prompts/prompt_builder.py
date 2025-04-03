@@ -1,34 +1,26 @@
-from . import MatchPrompt, RegexPrompt
+from . import Prompt
 from components import Quantifier, CharClass
 
 
-DIFFICULTY = [0, 5]
+MIN_DIFFICULTY = 0
+MAX_DIFFICULTY = 4
 
 
-def build_regex() -> RegexPrompt:
-    new_prompt = RegexPrompt()
-    new_prompt.add_component(CharClass.random())
-    new_prompt.add_component(Quantifier.random())
-    new_prompt.add_component(CharClass.random())
-    new_prompt.add_component(Quantifier.random())
-    new_prompt.build()
-    return new_prompt
-
-
-def build_match() -> MatchPrompt:
-    new_prompt = MatchPrompt()
-    new_prompt.add_component(CharClass.random())
-    new_prompt.add_component(Quantifier.random())
-    new_prompt.add_component(CharClass.random())
-    new_prompt.add_component(Quantifier.random())
-    new_prompt.build()
-    return new_prompt
+def build_prompt(num_strings: int) -> Prompt:
+    """
+    Build a regex prompt with random components.
+    """
+    prompt = Prompt()
+    prompt.add_component(CharClass.random())
+    prompt.add_component(Quantifier.random())
+    prompt.add_component(CharClass.random())
+    prompt.add_component(Quantifier.random())
+    prompt.build(num_strings)
+    return prompt
 
 
 def main():
-    prompt = build_regex()
-    print(prompt)
-    prompt = build_match()
+    prompt = build_prompt()
     print(prompt)
 
 

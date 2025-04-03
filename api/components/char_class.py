@@ -6,9 +6,7 @@ from .component import Component
 
 class CharClass(Component):
     def __init__(self, pattern: str):
-        """
-        Represents a regex character class.
-        """
+        """Represents a regex character class."""
         super().__init__()
 
         assert isinstance(pattern, str), "CharClass string must be a string"
@@ -30,7 +28,6 @@ class CharClass(Component):
         predefined_classes = {
             "\\d": string.digits,
             "\\w": string.ascii_letters + string.digits + "_",
-            "\\s": " \t\n",
             ".": string.printable,
         }
 
@@ -63,18 +60,16 @@ class CharClass(Component):
     
     @staticmethod
     def random() -> 'CharClass':
-        """
-        Returns a random valid CharClass.
-        """
+        """Returns a random valid CharClass."""
         random_classes = [
-            r"\d",  # Digit class
-            r"\w",  # Word character class
-            r"\s",  # Whitespace class
+            r"\d",        # Digit class
+            r"\w",        # Word character class
             r"[a-zA-Z]",  # Letter class (lowercase + uppercase)
-            r"[a-z]",  # Lowercase letters
-            r"[A-Z]",  # Uppercase letters
-            r"[0-9]",  # Digits
+            r"[a-z]",     # Lowercase letters
+            r"[A-Z]",     # Uppercase letters
+            r"[0-9]",     # Digits
             CharClass._generate_random(),  # Random character class, e.g., "[abc]"
+            CharClass._generate_random(),
             CharClass._generate_random(),
         ]
         random_choice = random.choice(random_classes)
@@ -90,10 +85,6 @@ def main():
     digit_class = CharClass("\\d")
     print(digit_class)  # character Class: \d
     print(digit_class.get_sample())  # random digit
-
-    whitespace_class = CharClass("\\s")
-    print(whitespace_class)  # character Class: \s
-    print(repr(whitespace_class.get_sample()))  # random whitespace (e.g., '\t', '\n', ' ')
 
     dot_class = CharClass(".")
     print(dot_class)  # character Class: .
