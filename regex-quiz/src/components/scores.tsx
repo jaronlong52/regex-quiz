@@ -2,7 +2,8 @@ import { useState } from "react";
 import "./layouts/scores.css";
 
 export default function Scores() {
-	const [scores, setScores] = useState([
+	const [scores] = useState([
+		// removed setScores
 		"1 minute: 4",
 		"3 minutes: 8",
 		"5 minutes: 12",
