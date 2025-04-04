@@ -6,7 +6,7 @@ MIN_DIFFICULTY = 0
 MAX_DIFFICULTY = 4
 
 
-def build_prompt(num_strings: int) -> Prompt:
+def build_prompt(num_strings: int =3) -> Prompt:
     """
     Build a regex prompt with random components.
     """

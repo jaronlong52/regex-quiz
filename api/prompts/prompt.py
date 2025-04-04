@@ -7,6 +7,9 @@ class Prompt:
         self.components: list[Component] = []
         self.pattern: str = ''
         self.strings: list[str] = None
+    
+    def __str__(self) -> str:
+        return f"Prompt(pattern={self.pattern}, strings={self.strings})"
    
     def to_dict(self) -> dict:
         return {
@@ -35,16 +38,26 @@ class Prompt:
         self.strings = []
 
         for _ in range(num_strings):
-            string = ''
+            self.strings.append(self.generate_sample())
+    
+    def generate_sample(self) -> str:
+        """
+        Generates a sample from the regex pattern.
+        """  
+        sample = ''
+        index = 0
 
-            for component in self.components:
-                if isinstance(component, CharClass):
-                    string += component.get_sample()
-                elif isinstance(component, Quantifier):
-                    quantity = component.get_quantity()
-                    if string:
-                        string += string[-1] * (quantity - 1)
-                    else:
-                        raise ValueError("Quantifier encountered without a preceding sample character.")
-                
-            self.strings.append(string)
+        while index < len(self.components):
+            component = self.components[index]
+            next_ = self.components[index + 1] if index + 1 < len(self.components) else None
+
+            if isinstance(component, CharClass):
+                if isinstance(next_, Quantifier):
+                    sample += component.get_sample() * next_.get_quantity()
+                    index += 2
+                else:
+                    sample += component.get_sample()
+                    index += 1
+        
+        return sample
+        

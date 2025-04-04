@@ -27,7 +27,6 @@ class CharClass(Component):
         """Extracts characters that belong to the given regex character class."""
         predefined_classes = {
             "\\d": string.digits,
-            "\\w": string.ascii_letters + string.digits + "_",
             ".": string.printable,
         }
 
@@ -63,11 +62,10 @@ class CharClass(Component):
         """Returns a random valid CharClass."""
         random_classes = [
             r"\d",        # Digit class
-            r"\w",        # Word character class
+            r"[0-9]",     # Digits
             r"[a-zA-Z]",  # Letter class (lowercase + uppercase)
             r"[a-z]",     # Lowercase letters
             r"[A-Z]",     # Uppercase letters
-            r"[0-9]",     # Digits
             CharClass._generate_random(),  # Random character class, e.g., "[abc]"
             CharClass._generate_random(),
             CharClass._generate_random(),
