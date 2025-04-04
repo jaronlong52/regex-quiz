@@ -3,6 +3,9 @@ from .component import Component
 
 
 class Quantifier(Component):
+
+    MAX_ADDER = 5
+
     def __init__(self, value: tuple | int):
         """
         Represents a regex quantifier, such as {m,n}, *, +, or ?.
@@ -50,10 +53,15 @@ class Quantifier(Component):
 
     def get_quantity(self) -> int:
         """Returns a random number within the quantifier range."""
-        if len(self.value) == 1 or self.value[1] is None or self.value[0] == self.value[1]:
+        # if the upper bound is None, set a default maximum for random generation.
+        if self.value[1] is None:
+            default_max = self.value[0] + Quantifier.MAX_ADDER
+            return random.randint(self.value[0], default_max)
+        elif self.value[0] == self.value[1]:
             return self.value[0]
         else:
             return random.randint(self.value[0], self.value[1])
+  
 
     @staticmethod
     def random() -> 'Quantifier':

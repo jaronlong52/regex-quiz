@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request, jsonify
-from prompts import Prompt, build_prompt, MIN_DIFFICULTY, MAX_DIFFICULTY
+from prompts import build_prompt, MIN_DIFFICULTY, MAX_DIFFICULTY
 
 
 app = Flask(__name__)
@@ -19,7 +19,7 @@ def generate(difficulty: int):
     quantity = request.args.get('quantity')
     num_strings = int(quantity) if quantity else 3
 
-    prompt = build_prompt(num_strings)
+    prompt = build_prompt(difficulty, num_strings)
     data = prompt.to_dict()
     data['difficulty'] = difficulty
 
