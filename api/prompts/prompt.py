@@ -1,5 +1,5 @@
 import re
-from components import Component, CharClass, Quantifier
+from components import Component, CharClass, Quantifier, Anchor
 
 
 class Prompt:
@@ -51,13 +51,18 @@ class Prompt:
             component = self.components[index]
             next_ = self.components[index + 1] if index + 1 < len(self.components) else None
 
-            if isinstance(component, CharClass):
+
+            if isinstance(component, Anchor):
+                index += 1
+            elif isinstance(component, CharClass):
                 if isinstance(next_, Quantifier):
                     sample += component.get_sample() * next_.get_quantity()
                     index += 2
                 else:
                     sample += component.get_sample()
                     index += 1
+            else:
+                raise ValueError(f"Unhandled component type: {component}")
         
         return sample
         

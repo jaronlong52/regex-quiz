@@ -1,5 +1,5 @@
 from . import Prompt
-from components import Quantifier, CharClass
+from components import Quantifier, CharClass, Anchor
 
 
 MIN_DIFFICULTY = 0
@@ -11,10 +11,13 @@ def build_prompt(num_strings: int =3) -> Prompt:
     Build a regex prompt with random components.
     """
     prompt = Prompt()
+    prompt.add_component(Anchor('^'))
     prompt.add_component(CharClass.random())
     prompt.add_component(Quantifier.random())
     prompt.add_component(CharClass.random())
     prompt.add_component(Quantifier.random())
+    prompt.add_component(Anchor('$'))
+
     prompt.build(num_strings)
     return prompt
 
