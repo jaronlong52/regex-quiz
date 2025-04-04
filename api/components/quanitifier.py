@@ -4,7 +4,7 @@ from .component import Component
 
 class Quantifier(Component):
 
-    MAX_ADDER = 5
+    MAX_ADDER = 3
 
     def __init__(self, value: tuple | int):
         """
@@ -67,8 +67,8 @@ class Quantifier(Component):
     def random() -> 'Quantifier':
         """Returns a random valid quantifier."""
         options = [
-            (random.randint(0, 5), random.randint(0, 5)),
-            (random.randint(0, 3), None),
+            (random.randint(0, 4), random.randint(0, 4)),
+            (random.randint(0, 2), None),
             (0, 1),
             (1, None),
             (0, None)

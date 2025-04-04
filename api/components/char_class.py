@@ -26,8 +26,9 @@ class CharClass(Component):
     def _expand_char_class(self):
         """Extracts characters that belong to the given regex character class."""
         predefined_classes = {
-            "\\d": string.digits,
-            ".": string.printable,
+            '\\d': string.digits,
+            '\\s': ' ',
+            '.': string.printable,
         }
 
         if self.pattern in predefined_classes:
@@ -61,13 +62,14 @@ class CharClass(Component):
     def random() -> 'CharClass':
         """Returns a random valid CharClass."""
         random_classes = [
+            r'.',         # Any character (except newline)
+            r'\s',        # Whitespace class
             r"\d",        # Digit class
             r"[0-9]",     # Digits
             r"[a-zA-Z]",  # Letter class (lowercase + uppercase)
             r"[a-z]",     # Lowercase letters
             r"[A-Z]",     # Uppercase letters
             CharClass._generate_random(),  # Random character class, e.g., "[abc]"
-            CharClass._generate_random(),
             CharClass._generate_random(),
         ]
         random_choice = random.choice(random_classes)

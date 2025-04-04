@@ -34,7 +34,7 @@ class Group(Component):
         return pattern.split('|')
     
     @staticmethod
-    def random(min_patterns=1, max_patterns=3) -> 'Group':
+    def random(min_patterns=1, max_patterns=2) -> 'Group':
         """Generates a regex Group containing a random subset of patterns."""
         num_patterns = random.randint(min_patterns, max_patterns)
         patterns = [Group._random_word() for _ in range(num_patterns)]

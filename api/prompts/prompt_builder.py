@@ -6,7 +6,7 @@ MIN_DIFFICULTY = 0
 MAX_DIFFICULTY = 4
 
 
-def build_prompt(difficulty=0, num_strings=5) -> Prompt:
+def build_prompt(difficulty=0, num_strings=3) -> Prompt:
     """
     Build a regex prompt with random components.
 
@@ -18,8 +18,9 @@ def build_prompt(difficulty=0, num_strings=5) -> Prompt:
 
     prompt.add_component(Anchor('^'))
     prompt.add_component(CharClass.random())
-    prompt.add_component(Quantifier.random())
     prompt.add_component(Group.random())
+    prompt.add_component(Quantifier.random())
+    prompt.add_component(CharClass.random())
     prompt.add_component(Anchor('$'))
 
     prompt.build(num_strings)
