@@ -6,6 +6,32 @@ from components import Component, Quantifier, CharClass, Group, Anchor
 MIN_DIFFICULTY = 0
 MAX_DIFFICULTY = 4
 
+# (Component, credit)
+COMPONENT_DICTIONARY = [
+    (CharClass, 3),
+    (Group, 4)
+]
+
+
+def add_component(prompt) -> int:
+    """
+    Add a random component to the prompt.
+
+    :param prompt: The Prompt object to add components to.
+    :return: The number of credits used.
+    """
+    selection = random.choice(COMPONENT_DICTIONARY)
+    component = selection[0].random()
+    credit = selection[1]
+
+    prompt.add_component(component)
+    
+    if random.randint(0, 1):
+        prompt.add_component(Quantifier.random())
+        credit += 2
+
+    return credit
+
 
 def build_prompt(difficulty=0, num_strings=3) -> Prompt:
     """
@@ -15,7 +41,7 @@ def build_prompt(difficulty=0, num_strings=3) -> Prompt:
     :param num_strings: The number of strings to generate.
     :return: A Prompt object containing the regex pattern and generated strings.
     """
-    prompt = Prompt()
+    prompt = Prompt(difficulty)
     prompt.add_component(Anchor('^'))
 
     credit = (difficulty + 1) * 4 
@@ -29,30 +55,10 @@ def build_prompt(difficulty=0, num_strings=3) -> Prompt:
     return prompt
 
 
-def add_component(prompt) -> int:
-    """
-    Add a random component to the prompt.
-
-    :param prompt: The Prompt object to add components to.
-    :return: The number of credits used.
-    """
-    component: tuple[Component, int] = random.choice([
-        (CharClass, 3),
-        (Group, 4)
-    ])
-    prompt.add_component(component[0].random())
-    credit = component[1]
-    
-    if random.randint(0, 1):
-        prompt.add_component(Quantifier.random())
-        credit += 2
-
-    return credit
-
-
 def main():
-    prompt = build_prompt(4)
-    print(prompt)
+    for i in range(5):
+        prompt = build_prompt(i, 3)
+        print(prompt)
 
 
 if __name__ == '__main__':

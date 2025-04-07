@@ -21,7 +21,6 @@ def generate(difficulty: int):
 
     prompt = build_prompt(difficulty, num_strings)
     data = prompt.to_dict()
-    data['difficulty'] = difficulty
 
     return jsonify(data), 200
     

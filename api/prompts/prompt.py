@@ -3,16 +3,18 @@ from components import Component, CharClass, Quantifier, Anchor, Group
 
 
 class Prompt:
-    def __init__(self):
+    def __init__(self, difficulty: int = 0):
         self.components: list[Component] = []
+        self.difficulty = difficulty
         self.pattern: str = ''
         self.strings: list[str] = None
     
     def __str__(self) -> str:
-        return f"Prompt(pattern={self.pattern}, strings={self.strings})"
+        return f"Prompt(difficutly={self.difficulty}, pattern={self.pattern}, strings={self.strings})"
    
     def to_dict(self) -> dict:
         return {
+            'difficulty': self.difficulty,
             'pattern': self.pattern,
             'strings': self.strings
         }
