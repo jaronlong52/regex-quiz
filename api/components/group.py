@@ -5,9 +5,8 @@ from .component import Component
 DICTIONARY = [ 
     'dog', 'cat', 'blue', 'red', 'six', 'mom', 'dad', 'sun', 'sky', 'fun',
     'zip', 'toy', 'box', 'cup', 'pen', 'lip', 'car', 'run', 'hop', 'win',
-    'joy', 'egg', 'key', 'gum', 'bat', 'owl', 'fox', 'bee', 'mud', 'jet',
     'tree', 'rock', 'bird', 'fish', 'ship', 'lake', 'sand', 'rain', 'wind', 'fire',
-    'snow', 'dune', 'leaf', 'bark', 'seed', 'horn', 'bean', 'wool', 'pearl', 'silk'
+    'ab', 'xy', 'ce', 'aeiou', 'xyz', 'abc', 'def', 'ghi', 'jkl', 'mno',
 ]
 
 
