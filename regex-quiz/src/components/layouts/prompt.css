@@ -1,0 +1,28 @@
+.prompt-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+}
+
+.prompt-input {
+    text-align: center;
+    color: white;
+    width: auto;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border-bottom: 2px solid white;
+    background-color: transparent;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    outline: none;
+}

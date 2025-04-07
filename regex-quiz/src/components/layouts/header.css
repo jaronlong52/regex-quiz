@@ -1,0 +1,17 @@
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.header div {
+    border: 5px solid white;
+    border-radius: 20px;
+    width: 90vh;
+    margin-top: -20px;
+    margin-bottom: 20px;
+}
