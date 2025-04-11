@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 import "./layouts/info.css";
 import Scores from "./scores";
 
-export default function Info() {
+interface InfoProps {
+	onStartClick: () => void;
+	onEndClick: () => void;
+}
+
+const Info: React.FC<InfoProps> = ({ onStartClick, onEndClick }) => {
 	const [timer, setTimer] = useState(60);
 	const [selectedTime, setSelectedTime] = useState(60); // Default selected time is 1 minute
 	const [isStarted, setIsStarted] = useState(false);
@@ -38,12 +43,22 @@ export default function Info() {
 
 	const handleStart = () => {
 		setIsStarted(true);
+		setTimer(selectedTime);
+		onStartClick();
 	};
 
 	const handleEnd = () => {
 		setIsStarted(false);
 		setTimer(selectedTime);
+		onEndClick();
 	};
+
+	useEffect(() => {
+		if (timer === 0) {
+			setIsStarted(false);
+			onEndClick();
+		}
+	}, [timer, onEndClick]);
 
 	return (
 		<div className="main-info">
@@ -65,4 +80,6 @@ export default function Info() {
 			{/* <div className="info-divider"></div> */}
 		</div>
 	);
-}
+};
+
+export default Info;
