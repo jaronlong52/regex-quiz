@@ -6,6 +6,7 @@ import { useState } from "react";
 export default function App() {
 	const [isStarted, setIsStarted] = useState(false);
 	const [isEnded, setIsEnded] = useState(false);
+	const [difficulty, setDifficulty] = useState(0);
 
 	function handleStart() {
 		setIsStarted(true);
@@ -17,11 +18,19 @@ export default function App() {
 		setIsStarted(false);
 	}
 
+	function handleDifficultyChange(newDifficulty: number) {
+		setDifficulty(newDifficulty);
+	}
+
 	return (
 		<div>
 			<Header />
-			<Info onStartClick={handleStart} onEndClick={handleEnd} />
-			<Prompt started={isStarted} ended={isEnded} />
+			<Info
+				onStartClick={handleStart}
+				onEndClick={handleEnd}
+				setDifficulty={handleDifficultyChange}
+			/>
+			<Prompt started={isStarted} ended={isEnded} difficulty={difficulty} />
 		</div>
 	);
 }

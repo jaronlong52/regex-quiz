@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./layouts/scores.css";
+import Button from "./button";
 
 export default function Scores() {
 	const [scores] = useState([
@@ -16,9 +17,7 @@ export default function Scores() {
 
 	return (
 		<div className="popup-container">
-			<button className="scores-btn" onClick={togglePopup}>
-				High Scores
-			</button>
+			<Button onClick={togglePopup}>High Scores</Button>
 			{showPopup && (
 				<div className="popup">
 					<div className="popup-content">
