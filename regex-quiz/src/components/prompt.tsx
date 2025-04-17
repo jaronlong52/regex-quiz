@@ -16,7 +16,6 @@ const Prompt: React.FC<PromptProps> = ({ started, ended, difficulty }) => {
 	const myMapRef = useRef<Map<string, { input: string; correct: boolean }>>(
 		new Map()
 	);
-	const [score, setScore] = useState<number>(0);
 
 	const checkInput = () => {
 		const currentValue = inputRef.current?.value || "";
@@ -56,7 +55,6 @@ const Prompt: React.FC<PromptProps> = ({ started, ended, difficulty }) => {
 
 	const handleCorrect = (value: string) => {
 		myMapRef.current.set(pattern, { input: value, correct: true });
-		setScore((prevScore) => prevScore + 1);
 		handleFetch();
 	};
 
@@ -81,7 +79,6 @@ const Prompt: React.FC<PromptProps> = ({ started, ended, difficulty }) => {
 			setPrompt(null);
 			if (inputRef.current) inputRef.current.value = "";
 			console.log("User inputs collected:", myMapRef.current);
-			inputRef.current?.blur();
 		}
 	}, [ended]);
 
@@ -119,9 +116,6 @@ const Prompt: React.FC<PromptProps> = ({ started, ended, difficulty }) => {
 							)
 						)}
 					</ul>
-					<p>
-						<strong>Score:</strong> {score}
-					</p>
 				</div>
 			)}
 		</div>

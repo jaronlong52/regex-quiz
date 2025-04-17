@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import "./layouts/info.css";
-import Scores from "./scores";
 import Button from "./button.tsx";
 
 interface InfoProps {
@@ -17,6 +16,7 @@ const Info: React.FC<InfoProps> = ({
 	const [timer, setTimer] = useState(60);
 	const [selectedTime, setSelectedTime] = useState(60); // Default selected time is 1 minute
 	const [isStarted, setIsStarted] = useState(false);
+	const [difficultyState, setDifficultyState] = useState(0); // Default difficulty is Easy
 
 	const timeOptions = [
 		{ label: "1 minute", value: 60 },
@@ -60,6 +60,7 @@ const Info: React.FC<InfoProps> = ({
 	) => {
 		// Handle difficulty change if needed
 		const selectedDifficulty = parseInt(event.target.value);
+		setDifficultyState(selectedDifficulty);
 		setDifficulty(selectedDifficulty);
 	};
 
@@ -86,7 +87,6 @@ const Info: React.FC<InfoProps> = ({
 		<div className="main-info">
 			<h2 className="timer">Timer: {timer} seconds</h2>
 			<div className="info-container">
-				<Scores />
 				<select
 					className="info-dropdown"
 					value={selectedTime}
@@ -105,7 +105,7 @@ const Info: React.FC<InfoProps> = ({
 				</select>
 				<select
 					className="info-dropdown"
-					value={selectedTime}
+					value={difficultyState}
 					onChange={handleDifficultyChange}
 					disabled={isStarted}
 				>
