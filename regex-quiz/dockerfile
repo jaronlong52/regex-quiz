@@ -17,7 +17,7 @@ FROM nginx:stable-alpine
 # Remove default Nginx website
 RUN rm -rf /usr/share/nginx/html/*
 # Copy built React app from the previous stage
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /dist /usr/share/nginx/html
 
 # Expose port 8080 to the outside world
 EXPOSE 80
