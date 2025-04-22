@@ -1,0 +1,50 @@
+# cloudbuild.yaml
+
+# Declare custom substitutions to avoid hard‑coding
+#    – TAG_NAME from trigger
+#    – SERVICE is the Cloud Run service name
+#    – REGION is where your Artifact Registry & Cloud Run live
+#    – REPO is your Artifact Registry repo name
+#    – PROJECT_ID is your GCP project ID
+substitutions:
+  _SERVICE:       "regex-quiz"
+  _REGION:        "us-central1"
+  _REPO:          "regex-quiz"
+  _PROJECT_ID:    "regex-quiz-455418"
+  # TAG_NAME will be set automatically by a tag trigger 
+
+# Tell Cloud Build the image were producing
+images:
+- "us-central1-docker.pkg.dev/$_PROJECT_ID/$_REPO/$_SERVICE:$TAG_NAME"
+
+steps:
+  # STEP 1: Build the Docker image
+  - name: "gcr.io/cloud-builders/docker"
+    dir: api
+    args: [
+      "build",
+      "-t", "us-central1-docker.pkg.dev/$_PROJECT_ID/$_REPO/$_SERVICE:$TAG_NAME",
+      "."
+    ]
+
+  # STEP 2: Push the image to Artifact Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args: [
+      "push",
+      "us-central1-docker.pkg.dev/$_PROJECT_ID/$_REPO/$_SERVICE:$TAG_NAME"
+    ]
+
+  # STEP 3: Deploy to Cloud Run
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
+    args: [
+      "run", "deploy", "$_SERVICE",
+      "--image", "us-central1-docker.pkg.dev/$_PROJECT_ID/$_REPO/$_SERVICE:$TAG_NAME",
+      "--region", "$_REGION",
+      "--platform", "managed",
+      "--allow-unauthenticated"
+    ]
+
+# Optional build logging options
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
