@@ -1,8 +1,22 @@
-import axios from "axios";
+export interface RegexPrompt {
+	// Adjust the type according to the actual shape returned by prompt.to_dict()
+	difficulty: number;
+	pattern: string;
+	strings: string[];
+}
 
-const api = axios.create({
-	// Use environment variable for the base URL
-	baseURL: process.env.REACT_APP_API_URL || "http://localhost:3000",
-});
+export async function fetchPrompt(
+	difficulty: number,
+	quantity = 3
+): Promise<RegexPrompt> {
+	const res = await fetch(
+		`http://localhost:8080/generate/${difficulty}?quantity=${quantity}`
+	);
+	if (!res.ok) {
+		const errorData = await res.json();
+		throw new Error(errorData.error || "Failed to fetch prompt");
+	}
 
-export default api;
+	const data = await res.json();
+	return data;
+}

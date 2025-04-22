@@ -1,30 +1,36 @@
 import Header from "./components/header";
 import Prompt from "./components/prompt";
-// import { useEffect, useState } from "react";
-// import api from "./api/api";
 import Info from "./components/info";
+import { useState } from "react";
 
 export default function App() {
-	// const [prompt, setPrompt] = useState("example Prompt");
+	const [isStarted, setIsStarted] = useState(false);
+	const [isEnded, setIsEnded] = useState(false);
+	const [difficulty, setDifficulty] = useState(0);
 
-	// const getPrompt = async () => {
-	// 	try {
-	// 		const response = await api.get("/prompt");
-	// 		setPrompt(response.data.prompt);
-	// 	} catch (error) {
-	// 		console.error("Error fetching prompt", error);
-	// 	}
-	// };
+	function handleStart() {
+		setIsStarted(true);
+		setIsEnded(false);
+	}
 
-	// useEffect(() => {
-	// 	getPrompt();
-	// }, []);
+	function handleEnd() {
+		setIsEnded(true);
+		setIsStarted(false);
+	}
+
+	function handleDifficultyChange(newDifficulty: number) {
+		setDifficulty(newDifficulty);
+	}
 
 	return (
 		<div>
-			<Header></Header>
-			<Info />
-			<Prompt promptText={"example"}></Prompt>
+			<Header />
+			<Info
+				onStartClick={handleStart}
+				onEndClick={handleEnd}
+				setDifficulty={handleDifficultyChange}
+			/>
+			<Prompt started={isStarted} ended={isEnded} difficulty={difficulty} />
 		</div>
 	);
 }
