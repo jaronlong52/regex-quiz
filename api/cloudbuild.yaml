@@ -20,6 +20,7 @@ images:
 steps:
   # STEP 1: Build the Docker image
   - name: "gcr.io/cloud-builders/docker"
+    dir: api
     args: [
       "build",
       "-t", "us-central1-docker.pkg.dev/$_PROJECT_ID/$_REPO/$_SERVICE:$TAG_NAME",
