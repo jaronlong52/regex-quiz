@@ -20,32 +20,29 @@ images:
 steps:
   # STEP 1: Build the Docker image
   - name: "gcr.io/cloud-builders/docker"
-    args:
-      [
-        "build",
-        "-t", "us-central1-docker.pkg.dev/$_PROJECT_ID/$_REPO/$_SERVICE:$TAG_NAME",
-        "."
-      ]
+    args: [
+      "build",
+      "-t", "us-central1-docker.pkg.dev/$_PROJECT_ID/$_REPO/$_SERVICE:$TAG_NAME",
+      "."
+    ]
 
   # STEP 2: Push the image to Artifact Registry
   - name: "gcr.io/cloud-builders/docker"
-    args:
-      [
-        "push",
-        "us-central1-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:$TAG_NAME"
-      ]
+    args: [
+      "push",
+      "us-central1-docker.pkg.dev/$_PROJECT_ID/$_REPO/$_SERVICE:$TAG_NAME"
+    ]
 
   # STEP 3: Deploy to Cloud Run
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: gcloud
-    args:
-      [
-        "run", "deploy", "$_SERVICE",
-        "--image", "us-central1-docker.pkg.dev/$PROJECT_ID/$_REPO/$_SERVICE:$TAG_NAME",
-        "--region", "$_REGION",
-        "--platform", "managed",
-        "--allow-unauthenticated"
-      ]
+    args: [
+      "run", "deploy", "$_SERVICE",
+      "--image", "us-central1-docker.pkg.dev/$_PROJECT_ID/$_REPO/$_SERVICE:$TAG_NAME",
+      "--region", "$_REGION",
+      "--platform", "managed",
+      "--allow-unauthenticated"
+    ]
 
 # Optional build logging options
 options:
