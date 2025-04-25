@@ -18,3 +18,6 @@ venv\Scripts\activate
 
 # Push image to artifact registry:
 `docker push us-central1-docker.pkg.dev/regex-quiz-455418/regex-quiz/regex-api`
+
+# Run cloud build:
+`gcloud builds submit ./api --region=us-west2 --config=./api/cloudbuild.yaml --substitutions=TAG_NAME="manual"`

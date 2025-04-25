@@ -10,7 +10,7 @@ export async function fetchPrompt(
 	quantity = 3
 ): Promise<RegexPrompt> {
 	const res = await fetch(
-		`http://localhost:8080/generate/${difficulty}?quantity=${quantity}`
+		`https://regex-api-541139680351.us-central1.run.app/generate/${difficulty}?quantity=${quantity}`
 	);
 	if (!res.ok) {
 		const errorData = await res.json();
