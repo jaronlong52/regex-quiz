@@ -1,25 +1,32 @@
-# === Build Stage ===
-FROM node:20-alpine AS build
+# Use Node.js 20 Alpine for a lightweight base
+FROM node:20-alpine
 
-# Copy dependency files and install dependencies
-COPY package.json package-lock.json* ./
+# Set working directory
+WORKDIR /app
+
+# Copy package files and install dependencies
+COPY package.json package-lock.json ./
 RUN npm install
 
-# Copy the rest of your app's source code
+# Copy source code and build
 COPY . .
-
-# Build the React app for production
 RUN npm run build
 
-# === Production Stage ===
-FROM nginx:stable-alpine
-# Remove default Nginx website
-RUN rm -rf /usr/share/nginx/html/*
-# Copy built React app from the previous stage
-COPY --from=build /dist /usr/share/nginx/html
+# Install serve to host static files
+RUN npm install -g serve
 
-# Expose port 8080 to the outside world
-EXPOSE 80
+# Remove devDependencies to reduce image size
+RUN npm prune --production
 
-# Start Nginx server in the foreground
-CMD ["nginx", "-g", "daemon off;"]
+# Set production environment
+ENV NODE_ENV=production
+
+# Create and switch to a non-root user for security
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+
+# Expose port 8080 for Cloud Run
+EXPOSE 8080
+
+# Serve the static files from the dist directory on port 8080
+CMD ["serve", "-s", "dist", "-l", "8080"]
