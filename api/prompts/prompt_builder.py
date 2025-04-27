@@ -44,7 +44,7 @@ def build_prompt(difficulty=0, num_strings=3) -> Prompt:
     prompt = Prompt(difficulty)
     prompt.add_component(Anchor('^'))
 
-    credit = (difficulty + 1) * 4 
+    credit = (difficulty + 1) * 5 
 
     while credit > 0:
         credit -= add_component(prompt)

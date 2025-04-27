@@ -37,10 +37,15 @@ class Prompt:
             raise ValueError(f"The generated regex pattern is invalid: {self.pattern}. Error: {e}")
 
         # generate sample strings based on the regex pattern
-        self.strings = []
+        strings = []
 
-        for _ in range(num_strings):
-            self.strings.append(self.generate_sample())
+        for _ in range(num_strings * 5):
+            strings.append(self.generate_sample())
+        
+        strings = set(strings)  # remove duplicates
+        strings = list(strings)[:num_strings]  # limit to num_strings
+
+        self.strings = strings
     
     def generate_sample(self) -> str:
         """
