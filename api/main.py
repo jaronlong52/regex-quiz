@@ -19,7 +19,7 @@ def generate(difficulty: int):
         return jsonify({'error': f'Invalid difficulty. Use a value between {MIN_DIFFICULTY} and {MAX_DIFFICULTY}.'}), 400
     
     quantity = request.args.get('quantity')
-    num_strings = int(quantity) if quantity else 3
+    num_strings = int(quantity) if quantity else 5
 
     prompt = build_prompt(difficulty, num_strings)
     data = prompt.to_dict()

@@ -3,6 +3,10 @@ from components import Component, CharClass, Quantifier, Anchor, Group, Literal
 
 
 class Prompt:
+    """
+    Represents a regex prompt with a difficulty level and a list of components.
+    """
+
     def __init__(self, difficulty: int = 0):
         self.components: list[Component] = []
         self.difficulty = difficulty
@@ -56,31 +60,30 @@ class Prompt:
 
         while index < len(self.components):
             component = self.components[index]
-            next_ = self.components[index + 1] if index + 1 < len(self.components) else None
+            next_component = self.components[index + 1] if index + 1 < len(self.components) else None
 
-            match component:
-                case Anchor():
+            print(f"Component: {component}, sample: {component.get_sample()}")
+
+            if isinstance(component, Literal):
+                sample += component.get_sample()
+
+            elif isinstance(component, CharClass):
+                if isinstance(next_component, Quantifier):
+                    for _ in range(next_component.get_quantity()):
+                        sample += component.get_sample()
                     index += 1
-                case CharClass() as cc:
-                    if isinstance(next_, Quantifier):
-                        for _ in range(next_.get_quantity()):
-                            sample += cc.get_sample()
-                        index += 2
-                    else:
-                        sample += cc.get_sample()
-                        index += 1
-                case Literal() as lit:
-                    sample += lit.get_sample()
+                else:
+                    sample += component.get_sample()
+            
+            elif isinstance(component, Group):
+                if isinstance(next_component, Quantifier):
+                    for _ in range(next_component.get_quantity()):
+                        sample += component.get_sample()
                     index += 1
-                case Group() as grp:
-                    if isinstance(next_, Quantifier):
-                        sample += grp.get_sample() * next_.get_quantity()
-                        index += 2
-                    else:
-                        sample += grp.get_sample()
-                        index += 1
-                case _:
-                    raise ValueError(f"Unhandled component type: {component}")
+                else:
+                    sample += component.get_sample()
+            
+            index += 1
         
         return sample
         

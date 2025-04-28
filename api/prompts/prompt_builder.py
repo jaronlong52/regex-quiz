@@ -6,12 +6,13 @@ from components import Quantifier, CharClass, Group, Anchor, Literal
 MIN_DIFFICULTY = 0
 MAX_DIFFICULTY = 4
 
-# (Component, credit, add_quanitifier)
-COMPONENT_DICTIONARY = [
-    (Literal, 3, False),
-    (CharClass, 3, True),
-    (Group, 4, True)
-]
+CHANCE_OF_SPACE = 0.25
+CHANCE_OF_QUANTIFIER = 0.4
+
+CREDIT_MULTIPLIER = 2.5 
+BASE_CREDITS = 2
+
+COMPONENTS = [Literal, CharClass, Group]
 
 
 def add_component(prompt) -> int:
@@ -21,18 +22,16 @@ def add_component(prompt) -> int:
     :param prompt: The Prompt object to add components to.
     :return: The number of credits used.
     """
-    selection = random.choice(COMPONENT_DICTIONARY)
-    component = selection[0].random()
-    credit = selection[1]
-    add_quanitifier = selection[2]
+    component = random.choice(COMPONENTS)
+    price = component.PRICE
 
-    prompt.add_component(component)
+    prompt.add_component(component.random()) 
     
-    if add_quanitifier and random.randint(0, 1):
+    if component.QUANTIFIER_POSSIBLE and random.random() < CHANCE_OF_QUANTIFIER:
         prompt.add_component(Quantifier.random())
-        credit += 2
+        price += Quantifier.PRICE
 
-    return credit
+    return price 
 
 
 def build_prompt(difficulty=0, num_strings=3) -> Prompt:
@@ -46,13 +45,19 @@ def build_prompt(difficulty=0, num_strings=3) -> Prompt:
     prompt = Prompt(difficulty)
     prompt.add_component(Anchor('^'))
 
-    credit = ((difficulty + 1) * 4) + 1 
+    # calculate credits based on difficulty
+    credit = round((difficulty + 1) * CREDIT_MULTIPLIER) + BASE_CREDITS 
 
+    # add components until credits are exhausted
     while credit > 0:
         credit -= add_component(prompt)
 
-    prompt.add_component(Anchor('$'))
+        # add a space between components with a 20% chance
+        if random.random() < CHANCE_OF_SPACE:
+            prompt.add_component(Literal(' '))
 
+    # build and return prompt
+    prompt.add_component(Anchor('$'))
     prompt.build(num_strings)
     return prompt
 
