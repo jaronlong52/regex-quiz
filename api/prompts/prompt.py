@@ -1,5 +1,5 @@
 import re
-from components import Component, CharClass, Quantifier, Anchor, Group
+from components import Component, CharClass, Quantifier, Anchor, Group, Literal
 
 
 class Prompt:
@@ -39,7 +39,7 @@ class Prompt:
         # generate sample strings based on the regex pattern
         strings = []
 
-        for _ in range(num_strings * 5):
+        for _ in range(num_strings * 10):
             strings.append(self.generate_sample())
         
         strings = set(strings)  # remove duplicates
@@ -69,6 +69,9 @@ class Prompt:
                     else:
                         sample += cc.get_sample()
                         index += 1
+                case Literal() as lit:
+                    sample += lit.get_sample()
+                    index += 1
                 case Group() as grp:
                     if isinstance(next_, Quantifier):
                         sample += grp.get_sample() * next_.get_quantity()

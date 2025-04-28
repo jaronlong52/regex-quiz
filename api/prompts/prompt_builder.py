@@ -1,15 +1,16 @@
 import random
 from . import Prompt
-from components import Component, Quantifier, CharClass, Group, Anchor
+from components import Quantifier, CharClass, Group, Anchor, Literal
 
 
 MIN_DIFFICULTY = 0
 MAX_DIFFICULTY = 4
 
-# (Component, credit)
+# (Component, credit, add_quanitifier)
 COMPONENT_DICTIONARY = [
-    (CharClass, 3),
-    (Group, 4)
+    (Literal, 3, False),
+    (CharClass, 3, True),
+    (Group, 4, True)
 ]
 
 
@@ -23,10 +24,11 @@ def add_component(prompt) -> int:
     selection = random.choice(COMPONENT_DICTIONARY)
     component = selection[0].random()
     credit = selection[1]
+    add_quanitifier = selection[2]
 
     prompt.add_component(component)
     
-    if random.randint(0, 1):
+    if add_quanitifier and random.randint(0, 1):
         prompt.add_component(Quantifier.random())
         credit += 2
 
@@ -44,7 +46,7 @@ def build_prompt(difficulty=0, num_strings=3) -> Prompt:
     prompt = Prompt(difficulty)
     prompt.add_component(Anchor('^'))
 
-    credit = (difficulty + 1) * 5 
+    credit = ((difficulty + 1) * 4) + 1 
 
     while credit > 0:
         credit -= add_component(prompt)
