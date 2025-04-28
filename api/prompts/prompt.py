@@ -62,8 +62,6 @@ class Prompt:
             component = self.components[index]
             next_component = self.components[index + 1] if index + 1 < len(self.components) else None
 
-            print(f"Component: {component}, sample: {component.get_sample()}")
-
             if isinstance(component, Literal):
                 sample += component.get_sample()
 

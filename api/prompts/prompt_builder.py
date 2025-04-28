@@ -6,13 +6,15 @@ from components import Quantifier, CharClass, Group, Anchor, Literal
 MIN_DIFFICULTY = 0
 MAX_DIFFICULTY = 4
 
-CHANCE_OF_SPACE = 0.25
-CHANCE_OF_QUANTIFIER = 0.4
-
-CREDIT_MULTIPLIER = 2.5 
-BASE_CREDITS = 2
+CREDIT_MULTIPLIER = 2.25  
+BASE_CREDITS = 4  # number of credits for minimum difficulty
 
 COMPONENTS = [Literal, CharClass, Group]
+
+SEPARATORS = [' ', '-', '_', ':', ',']
+CHANCE_OF_SEPARATOR = 0.5
+
+CHANCE_OF_QUANTIFIER = 0.4
 
 
 def add_component(prompt) -> int:
@@ -46,15 +48,16 @@ def build_prompt(difficulty=0, num_strings=3) -> Prompt:
     prompt.add_component(Anchor('^'))
 
     # calculate credits based on difficulty
-    credit = round((difficulty + 1) * CREDIT_MULTIPLIER) + BASE_CREDITS 
+    credit = round(difficulty * CREDIT_MULTIPLIER) + BASE_CREDITS 
 
     # add components until credits are exhausted
     while credit > 0:
         credit -= add_component(prompt)
 
-        # add a space between components with a 20% chance
-        if random.random() < CHANCE_OF_SPACE:
-            prompt.add_component(Literal(' '))
+        # randomly add a literal separater for clarity
+        if random.random() < CHANCE_OF_SEPARATOR:
+            sep = random.choice(SEPARATORS)
+            prompt.add_component(Literal(sep))
 
     # build and return prompt
     prompt.add_component(Anchor('$'))
