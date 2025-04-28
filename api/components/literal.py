@@ -7,16 +7,19 @@ DICTIONARY = [
 ]
 
 class Literal(Component):
+    """
+    Represents a literal regex pattern.
+    """
+
+    PRICE = 3
+    QUANTIFIER_POSSIBLE = False
+
     def __init__(self, pattern: str):
         """
-        Represents a literal regex pattern.
+        Initializes a Literal object with a given pattern.
         """
-        super().__init__()
-
-        self.pattern = pattern
-    
-    def __str__(self) -> str:
-        return self.pattern
+        assert isinstance(pattern, str), "Literal pattern must be a string"
+        super().__init__(pattern)
     
     def get_sample(self) -> str:
         return self.pattern
@@ -26,11 +29,3 @@ class Literal(Component):
         """Generates a Literal containing a random value from the dictionary."""
         return Literal(random.choice(DICTIONARY))
     
-
-def main():
-    """Runs basic test cases for the Literal."""
-    pass
-
-
-if __name__ == '__main__':
-    main()
