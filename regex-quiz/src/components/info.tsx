@@ -119,11 +119,13 @@ const Info: React.FC<InfoProps> = ({
 						</option>
 					))}
 				</select>
-				<div>
+				<div className="info-buttons">
 					<Button onClick={handleStart} disabled={isStarted}>
 						Start
 					</Button>
-					<Button onClick={handleEnd}>End</Button>
+					<div className="info-buttons-end">
+						<Button onClick={handleEnd}>End</Button>
+					</div>
 				</div>
 			</div>
 		</div>

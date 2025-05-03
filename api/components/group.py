@@ -11,15 +11,21 @@ DICTIONARY = [
 
 
 class Group(Component):
+    """
+    Represents a regex group, which can contain multiple subpatterns.
+    """
+
+    PRICE = 5
+    QUANTIFIER_POSSIBLE = True
+
     def __init__(self, pattern: str):
         """
-        Represents a regex group.
+        Initializes a Group object with a given pattern.
         """
-        super().__init__()
-
         assert isinstance(pattern, str), "Group pattern must be a string"
 
-        self.pattern = pattern
+        super().__init__(pattern)
+
         self.subpatterns = self._extract_subpatterns(pattern)
 
     def __str__(self) -> str:

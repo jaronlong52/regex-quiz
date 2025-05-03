@@ -3,12 +3,19 @@ from .component import Component
 
 
 class Quantifier(Component):
+    """
+    Represents a regex quantifier, which specifies how many times a pattern can occur.
+    """
+
+    PRICE = 2
+    QUANTIFIER_POSSIBLE = False
 
     MAX_ADDER = 3
 
     def __init__(self, value: tuple | int):
         """
-        Represents a regex quantifier, such as {m,n}, *, +, or ?.
+        Initializes a Quantifier object with a given value.
+        :param value: An integer or a tuple of integers representing the quantifier range.
         """
         super().__init__()
 

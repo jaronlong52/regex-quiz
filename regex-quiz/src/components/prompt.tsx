@@ -64,11 +64,11 @@ const Prompt: React.FC<PromptProps> = ({ started, ended, difficulty }) => {
 		setPrompt(newPrompt);
 		setPattern(newPrompt.pattern);
 		if (inputRef.current) inputRef.current.value = "";
-		console.log(newPrompt);
 	};
 
 	useEffect(() => {
 		if (started) {
+			myMapRef.current.clear();
 			handleFetch();
 			inputRef.current?.focus();
 		}
@@ -78,7 +78,6 @@ const Prompt: React.FC<PromptProps> = ({ started, ended, difficulty }) => {
 		if (ended) {
 			setPrompt(null);
 			if (inputRef.current) inputRef.current.value = "";
-			console.log("User inputs collected:", myMapRef.current);
 		}
 	}, [ended]);
 
@@ -102,13 +101,23 @@ const Prompt: React.FC<PromptProps> = ({ started, ended, difficulty }) => {
 				onKeyUp={handleKeyUp}
 				onChange={checkInput}
 			/>
+			{!ended && (
+				<div style={{ fontStyle: "italic" }}>
+					{promptIsRegex
+						? "provide a matching string"
+						: "provide a matching regular expression"}
+				</div>
+			)}
+			{!ended && (
+				<div style={{ fontStyle: "italic" }}>*press enter to skip</div>
+			)}
 			{ended && (
 				<div className="results-container">
-					<h3>Results</h3>
+					<h2 style={{ textAlign: "center" }}>Results</h2>
 					<ul>
 						{Array.from(myMapRef.current.entries()).map(
 							([key, result], idx) => (
-								<li key={idx}>
+								<li key={idx} style={{ marginBottom: "1rem" }}>
 									<strong>Pattern:</strong> {key} <br />
 									<strong>Your Input:</strong> {result.input} <br />
 									<strong>Status:</strong> {result.correct ? "✅" : "❌"}

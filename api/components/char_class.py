@@ -5,12 +5,20 @@ from .component import Component
 
 
 class CharClass(Component):
-    def __init__(self, pattern: str):
-        """Represents a regex character class."""
-        super().__init__()
+    """
+    Represents a regex character class.
+    """
 
+    PRICE = 3
+    QUANTIFIER_POSSIBLE = True
+
+    def __init__(self, pattern: str):
+        """
+        Initializes a CharClass object with a given regex pattern.
+        """
         assert isinstance(pattern, str), "CharClass string must be a string"
-        self.pattern = pattern
+
+        super().__init__(pattern)
 
         # validate regex pattern
         try:

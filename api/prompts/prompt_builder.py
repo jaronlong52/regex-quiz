@@ -1,16 +1,20 @@
 import random
 from . import Prompt
-from components import Component, Quantifier, CharClass, Group, Anchor
+from components import Quantifier, CharClass, Group, Anchor, Literal
 
 
 MIN_DIFFICULTY = 0
 MAX_DIFFICULTY = 4
 
-# (Component, credit)
-COMPONENT_DICTIONARY = [
-    (CharClass, 3),
-    (Group, 4)
-]
+CREDIT_MULTIPLIER = 2.25  
+BASE_CREDITS = 4  # number of credits for minimum difficulty
+
+COMPONENTS = [Literal, CharClass, Group]
+
+SEPARATORS = [' ', '-', '_', ':', ',']
+CHANCE_OF_SEPARATOR = 0.5
+
+CHANCE_OF_QUANTIFIER = 0.4
 
 
 def add_component(prompt) -> int:
@@ -20,17 +24,16 @@ def add_component(prompt) -> int:
     :param prompt: The Prompt object to add components to.
     :return: The number of credits used.
     """
-    selection = random.choice(COMPONENT_DICTIONARY)
-    component = selection[0].random()
-    credit = selection[1]
+    component = random.choice(COMPONENTS)
+    price = component.PRICE
 
-    prompt.add_component(component)
+    prompt.add_component(component.random()) 
     
-    if random.randint(0, 1):
+    if component.QUANTIFIER_POSSIBLE and random.random() < CHANCE_OF_QUANTIFIER:
         prompt.add_component(Quantifier.random())
-        credit += 2
+        price += Quantifier.PRICE
 
-    return credit
+    return price 
 
 
 def build_prompt(difficulty=0, num_strings=3) -> Prompt:
@@ -44,13 +47,20 @@ def build_prompt(difficulty=0, num_strings=3) -> Prompt:
     prompt = Prompt(difficulty)
     prompt.add_component(Anchor('^'))
 
-    credit = (difficulty + 1) * 4 
+    # calculate credits based on difficulty
+    credit = round(difficulty * CREDIT_MULTIPLIER) + BASE_CREDITS 
 
+    # add components until credits are exhausted
     while credit > 0:
         credit -= add_component(prompt)
 
-    prompt.add_component(Anchor('$'))
+        # randomly add a literal separater for clarity
+        if random.random() < CHANCE_OF_SEPARATOR:
+            sep = random.choice(SEPARATORS)
+            prompt.add_component(Literal(sep))
 
+    # build and return prompt
+    prompt.add_component(Anchor('$'))
     prompt.build(num_strings)
     return prompt
 
