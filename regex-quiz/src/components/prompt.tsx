@@ -106,7 +106,7 @@ const Prompt: React.FC<PromptProps> = ({ started, ended, difficulty }) => {
 			{!ended && <div>*press enter to skip</div>}
 			{ended && (
 				<div className="results-container">
-					<h3 style={{ textAlign: "center" }}>Results</h3>
+					<h2 style={{ textAlign: "center" }}>Results</h2>
 					<ul>
 						{Array.from(myMapRef.current.entries()).map(
 							([key, result], idx) => (
