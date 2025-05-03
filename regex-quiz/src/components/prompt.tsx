@@ -64,7 +64,6 @@ const Prompt: React.FC<PromptProps> = ({ started, ended, difficulty }) => {
 		setPrompt(newPrompt);
 		setPattern(newPrompt.pattern);
 		if (inputRef.current) inputRef.current.value = "";
-		console.log(newPrompt);
 	};
 
 	useEffect(() => {
@@ -79,7 +78,6 @@ const Prompt: React.FC<PromptProps> = ({ started, ended, difficulty }) => {
 		if (ended) {
 			setPrompt(null);
 			if (inputRef.current) inputRef.current.value = "";
-			console.log("User inputs collected:", myMapRef.current);
 		}
 	}, [ended]);
 
@@ -103,7 +101,16 @@ const Prompt: React.FC<PromptProps> = ({ started, ended, difficulty }) => {
 				onKeyUp={handleKeyUp}
 				onChange={checkInput}
 			/>
-			{!ended && <div>*press enter to skip</div>}
+			{!ended && (
+				<div style={{ fontStyle: "italic" }}>
+					{promptIsRegex
+						? "provide a matching string"
+						: "provide a matching regular expression"}
+				</div>
+			)}
+			{!ended && (
+				<div style={{ fontStyle: "italic" }}>*press enter to skip</div>
+			)}
 			{ended && (
 				<div className="results-container">
 					<h2 style={{ textAlign: "center" }}>Results</h2>
