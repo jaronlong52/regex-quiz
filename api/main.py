@@ -8,13 +8,19 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def home():
-    return 'Welcome to Regex API!'
+    if request.method != 'GET':
+        return jsonify({'error': 'Only GET method is allowed for this endpoint.'}), 405
+
+    return 'welcome to regex-api'
 
 
 @app.route('/generate/<int:difficulty>', methods=['GET'])
 def generate(difficulty: int):
+    if request.method != 'GET':
+        return jsonify({'error': 'Only GET method is allowed for this endpoint.'}), 405
+
     if difficulty < MIN_DIFFICULTY or difficulty > MAX_DIFFICULTY:
         return jsonify({'error': f'Invalid difficulty. Use a value between {MIN_DIFFICULTY} and {MAX_DIFFICULTY}.'}), 400
     
@@ -32,5 +38,6 @@ if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
         port=port,
-        debug=True
+        debug=True,
+        threaded=True,
     )
