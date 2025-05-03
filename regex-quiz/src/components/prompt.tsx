@@ -69,6 +69,7 @@ const Prompt: React.FC<PromptProps> = ({ started, ended, difficulty }) => {
 
 	useEffect(() => {
 		if (started) {
+			myMapRef.current.clear();
 			handleFetch();
 			inputRef.current?.focus();
 		}
@@ -102,13 +103,14 @@ const Prompt: React.FC<PromptProps> = ({ started, ended, difficulty }) => {
 				onKeyUp={handleKeyUp}
 				onChange={checkInput}
 			/>
+			{!ended && <div>*press enter to skip</div>}
 			{ended && (
 				<div className="results-container">
-					<h3>Results</h3>
+					<h3 style={{ textAlign: "center" }}>Results</h3>
 					<ul>
 						{Array.from(myMapRef.current.entries()).map(
 							([key, result], idx) => (
-								<li key={idx}>
+								<li key={idx} style={{ marginBottom: "1rem" }}>
 									<strong>Pattern:</strong> {key} <br />
 									<strong>Your Input:</strong> {result.input} <br />
 									<strong>Status:</strong> {result.correct ? "✅" : "❌"}
