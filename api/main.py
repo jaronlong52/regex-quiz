@@ -33,7 +33,7 @@ def generate(difficulty: int):
     return jsonify(data), 200
     
 
-if __name__ == '__main__':
+def main():
     port = int(os.environ.get("PORT", 8080))
     app.run(
         host='0.0.0.0',
@@ -41,3 +41,7 @@ if __name__ == '__main__':
         debug=True,
         threaded=True,
     )
+
+
+if __name__ == '__main__':
+    main()
