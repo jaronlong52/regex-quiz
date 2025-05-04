@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./layouts/prompt.css";
-import { fetchPrompt, RegexPrompt } from "../api/api";
+import { fetchPrompt, RegexPrompt, testRegex } from "../api/api";
 
 interface PromptProps {
 	started: boolean;
@@ -17,7 +17,7 @@ const Prompt: React.FC<PromptProps> = ({ started, ended, difficulty }) => {
 		new Map()
 	);
 
-	const checkInput = () => {
+	const checkInput = async () => {
 		const currentValue = inputRef.current?.value || "";
 		if (!prompt) return;
 
@@ -27,7 +27,8 @@ const Prompt: React.FC<PromptProps> = ({ started, ended, difficulty }) => {
 		}
 
 		if (!promptIsRegex) {
-			if (currentValue === pattern) {
+			const isCorrect = await testRegex(pattern, prompt.strings);
+			if (isCorrect.result) {
 				handleCorrect(currentValue);
 			}
 		} else {
@@ -64,6 +65,7 @@ const Prompt: React.FC<PromptProps> = ({ started, ended, difficulty }) => {
 		setPrompt(newPrompt);
 		setPattern(newPrompt.pattern);
 		if (inputRef.current) inputRef.current.value = "";
+		console.log(newPrompt);
 	};
 
 	useEffect(() => {
